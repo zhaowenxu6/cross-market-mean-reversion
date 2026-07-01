@@ -3,8 +3,9 @@
 根据 report_guide.md 生成完整Word报告
 使用 python-docx
 """
-import sys, os; sys.path.insert(0, BASE_DIR)
+import sys, os
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8")
 
 import numpy as np; import pandas as pd
@@ -16,7 +17,6 @@ from docx.enum.section import WD_ORIENT
 from docx.oxml.ns import qn, nsdecls
 from docx.oxml import parse_xml
 from copy import deepcopy
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ---------- 读取数据 ----------
 nav = pd.read_parquet(PROJ_DIR + "/output/tables/nav_curve.parquet")

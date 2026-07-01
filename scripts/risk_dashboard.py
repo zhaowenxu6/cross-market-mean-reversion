@@ -9,8 +9,8 @@
   4. output/tables/risk_dashboard.xlsx      — 监控仪表板(含汇总表+快照)
 """
 import sys, os
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -21,7 +21,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.ticker import PercentFormatter
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 中文字体
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]

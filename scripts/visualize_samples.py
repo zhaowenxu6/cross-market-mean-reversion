@@ -3,8 +3,8 @@
 用真实收盘价日线绘制开平仓信号
 """
 import sys, os
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -14,7 +14,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
 plt.rcParams["axes.unicode_minus"] = False

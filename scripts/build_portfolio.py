@@ -7,15 +7,14 @@
   2. output/tables/risk_events.xlsx — 风控事件日志
 """
 import sys, os, importlib.util
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Ridge
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ---------- 导入 ----------
 spec = importlib.util.spec_from_file_location("universe", PROJ_DIR + "/config/universe.py")

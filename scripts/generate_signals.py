@@ -8,8 +8,8 @@
   3. output/figures/signal_*.png — 3个典型配对的信号图
 """
 import sys, os, importlib.util
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -238,7 +238,6 @@ total_days = len(returns)
 
 # 从交易记录算胜率
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 trades_dir = PROJ_DIR + "/data/interim/signals/"
 total_trades = 0
 total_wins = 0

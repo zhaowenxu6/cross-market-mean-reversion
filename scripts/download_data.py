@@ -23,6 +23,7 @@ if USE_PROXY:
     urllib.request.install_opener(urllib.request.build_opener(proxy))
 
 # ========== 配置 ==========
+PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = PROJ_DIR + "/data"           # 数据根目录
 SPOT_URL = "https://api.binance.com/api/v3/klines"  # Binance 现货 K 线 API
 START = "2023-01-01"                      # 起始日期
@@ -169,7 +170,6 @@ def main():
 
     # 导入标的池
     import importlib.util
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     spec = importlib.util.spec_from_file_location("universe", PROJ_DIR + "/config/universe.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

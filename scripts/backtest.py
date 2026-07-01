@@ -62,15 +62,14 @@ Step 6: 回测引擎与成本建模
 """
 # ---------- 导入 ----------
 import sys, os
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Ridge
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ========== 策略参数调优（改这里） ==========
 ENTRY_Z = 2.0       # 入场阈值 (默认2.0)

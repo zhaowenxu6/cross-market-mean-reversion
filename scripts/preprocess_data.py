@@ -11,14 +11,13 @@
   data/interim/preprocessing_report.txt — 预处理报告
 """
 import sys, os, importlib.util
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 import numpy as np
 import pandas as pd
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 spec = importlib.util.spec_from_file_location("universe", PROJ_DIR + "/config/universe.py")
 mod = importlib.util.module_from_spec(spec)

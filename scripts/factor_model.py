@@ -7,8 +7,8 @@
   2. output/figures/beta_*.png — 每个配对的β时序图
 """
 import sys, os, importlib.util
-sys.path.insert(0, BASE_DIR)
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJ_DIR)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -158,7 +158,6 @@ for idx, asset in enumerate(TARGET_ASSETS, 1):
 
     # Ljung-Box检验（残差自相关，滞后10期）
     from statsmodels.stats.diagnostic import acorr_ljungbox
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     try:
         lb_result = acorr_ljungbox(residuals, lags=[10], return_df=True)
         lb_p = lb_result["lb_pvalue"].iloc[0]

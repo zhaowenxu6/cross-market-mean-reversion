@@ -55,6 +55,10 @@ r_target = α + β₁·r_factor₁ + β₂·r_factor₂ + ε
 ```bash
 pip install -r requirements.txt
 
+# 一键运行全部步骤
+python run_all.py
+
+# 或按顺序手动执行
 python scripts/download_data.py          # 下载原始数据
 python scripts/preprocess_data.py        # 清洗对齐
 python scripts/factor_model.py           # 因子模型
@@ -64,6 +68,13 @@ python scripts/backtest.py               # 回测
 python scripts/risk_dashboard.py         # 风控图表
 python scripts/generate_docx_report.py   # 生成报告
 ```
+
+## run_all.py 参数
+
+| 参数 | 说明 |
+|------|------|
+| `--skip-download` | 跳过数据下载（已有数据时使用） |
+| `--force-report` | 强制重新生成报告（默认报告存在时跳过） |
 
 ## 最终报告
 
