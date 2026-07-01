@@ -143,20 +143,26 @@ for idx, asset in enumerate(TARGET_ASSETS, 1):
         print(f"滚动回归结果不足，跳过")
         continue
 
-    # ===== 全样本残差（用于ADF+Lj ung-Box检验） =====
+    # ===== 全样本残差（用于ADF+Ljung-Box检验） =====
     # 预测收益率 = α + β₁·r₁ + β₂·r₂
     # 特质残差 ε = 实际收益率 - 预测收益率
-    # 条件1：残差平稳（ADF p<0.05）→ 配对关系稳定
-    # 条件2：残差无显著自相关（Ljung-Box p>0.05）→ 残差是白噪声，非动量
+    # ADF检验对象：累积残差（cumulative residual）
+    #   - 日频残差天然均值回归（围绕0波动），ADF必然通过，无区分力
+    #   - 累积残差检验的是"价差是否均值回归"，即协整关系是否存在
+    #   - 这是统计套利中ADF检验的正确用法
+    # Ljung-Box检验对象：日频残差自相关
     full_result = ridge_regression(y, X)
     if full_result is None:
         print("全样本回归失败，跳过")
         continue
 
     residuals = full_result["residuals"]
-    adf_p = adf_test(residuals)
+    cum_residuals = np.cumsum(residuals)
+    adf_p_daily = adf_test(residuals)       # 日频残差ADF
+    adf_p_cum = adf_test(cum_residuals)     # 累积残差ADF（协整检验）
+    adf_p = adf_p_cum  # 主判定用累积残差
 
-    # Ljung-Box检验（残差自相关，滞后10期）
+    # Ljung-Box检验（日频残差自相关，滞后10期）
     from statsmodels.stats.diagnostic import acorr_ljungbox
     try:
         lb_result = acorr_ljungbox(residuals, lags=[10], return_df=True)
@@ -179,10 +185,10 @@ for idx, asset in enumerate(TARGET_ASSETS, 1):
     # β时变性（变异系数）
     beta_cv = [np.std(b) / max(abs(np.mean(b)), 0.01) for b in rolling_betas]
 
-    # 通过标准：R²>=0.5 且 ADF<0.05 且 残差白噪声(LB>0.05)
-    passed = (r2_mean >= 0.5) and (adf_p < 0.05) and (lb_p > 0.05)
-    # ADF显示：如果小于0.0001用科学记数法
-    adf_display = f"{adf_p:.2e}" if adf_p < 0.0001 else f"{adf_p:.4f}"
+    # 通过标准：R²>=0.5 且 累积残差ADF<0.05 且 日频残差白噪声(LB>0.05)
+    # 注意：ADF检验对象为累积残差（协整检验），非日频残差
+    passed = (r2_mean >= 0.5) and (adf_p_cum < 0.05) and (lb_p > 0.05)
+    adf_display = f"日频={adf_p_daily:.2e}  累积={adf_p_cum:.4f}"
 
     rid_alpha = full_result.get("ridge_alpha", 0)
     lb_display = f"{lb_p:.2e}" if lb_p < 0.0001 else f"{lb_p:.4f}"
@@ -197,8 +203,9 @@ for idx, asset in enumerate(TARGET_ASSETS, 1):
         "R²均值": round(r2_mean, 4),
         "R²标准差": round(r2_std, 4),
         "α均值": round(alpha_mean, 6),
-        "ADF检验P值": round(adf_p, 4) if adf_p >= 0.0001 else adf_p,
-        "残差平稳": "是" if adf_p < 0.05 else "否",
+        "ADF(日频残差)P值": round(adf_p_daily, 4) if adf_p_daily >= 0.0001 else adf_p_daily,
+        "ADF(累积残差)P值": round(adf_p_cum, 4) if adf_p_cum >= 0.0001 else adf_p_cum,
+        "累积残差平稳": "是" if adf_p_cum < 0.05 else "否",
         "Ljung-Box P值": round(lb_p, 4) if lb_p >= 0.0001 else lb_p,
         "残差白噪声": "是" if lb_p > 0.05 else "否",
         "是否通过": "✅" if passed else "❌",
@@ -269,8 +276,8 @@ failed_r2 = df_results[df_results["R²均值"] < 0.5]
 print(f"  R²<0.5: {len(failed_r2)} / {len(df_results)}")
 if len(failed_r2) > 0:
     print(f"    低R²资产: {', '.join(failed_r2['代码'].tolist())}")
-stable = df_results[df_results["残差平稳"] == "是"]
-print(f"  残差平稳(ADF<0.05): {len(stable)} / {len(df_results)}")
+stable = df_results[df_results["累积残差平稳"] == "是"]
+print(f"  累积残差平稳(ADF<0.05): {len(stable)} / {len(df_results)}")
 
 print()
 print(f"✅ 已生成: {excel_path}")
