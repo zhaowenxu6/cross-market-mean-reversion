@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+.workbuddy/
+
+# 原始数据（太大了，不放仓库）
+data/raw/
+
+# 系统文件
+Thumbs.db
+.DS_Store
