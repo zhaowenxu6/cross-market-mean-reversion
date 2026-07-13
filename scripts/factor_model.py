@@ -39,7 +39,7 @@ MIN_OBS = 60       # 最少有效观测数
 # ---------- 加载收益率 panel ----------
 returns = pd.read_parquet(PROJ_DIR + "/data/interim/returns_clean.parquet")
 returns = returns.sort_index()
-# 裁剪到面试要求的时间范围 2023-01-01 起
+# 裁剪到研究时间范围 2023-01-01 起
 returns = returns[returns.index >= "2023-01-01"]
 print(f"收益率面板: {returns.shape[0]} 天 x {returns.shape[1]} 个标的")
 print(f"日期范围: {returns.index[0].date()} ~ {returns.index[-1].date()}")

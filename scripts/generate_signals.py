@@ -36,7 +36,7 @@ BETA_WINDOW = 90     # 估计β用的窗口（交易日）
 Z_WINDOW = 60        # z-score均值和标准差用的窗口
 ENTRY_Z = 2.0        # 入场阈值
 EXIT_Z = 0.5         # 平仓阈值
-STOP_Z = 4.0         # 止损阈值
+STOP_Z = 3.0         # 止损阈值
 
 os.makedirs(PROJ_DIR + "/data/interim/signals", exist_ok=True)
 os.makedirs(PROJ_DIR + "/output/tables", exist_ok=True)
@@ -232,7 +232,7 @@ with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
         max_len = max(len(str(cell.value or "")) for cell in col)
         ws.column_dimensions[col[0].column_letter].width = min(max_len + 4, 30)
 
-# ===== 汇总统计（匹配面试题格式） =====
+# ===== 汇总统计 =====
 total_trades_from_sig = df_stats["总交易数"].sum()
 total_days = len(returns)
 

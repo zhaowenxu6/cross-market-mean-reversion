@@ -6,7 +6,7 @@ Idiosyncratic Mean-Reversion Statistical Arbitrage Strategy on Binance
 
 在 Binance 平台上设计并回测跨市场特质均值回归统计套利策略，利用加密资产（24/7）与传统金融资产（6.5h/日）之间的跨市场定价偏差，通过 Ridge 因子模型剥离系统性风险，捕捉特质残差的均值回归收益。
 
-本作品为量化研究员/交易员面试项目，完整包含方法论框架、回测引擎、成本建模与策略分析报告。
+本项目完整包含方法论框架、回测引擎、成本建模与策略分析报告。
 
 ## 策略核心逻辑
 
@@ -115,9 +115,9 @@ python scripts/generate_docx_report.py   # 生成报告
 
 ## 使用的AI工具
 
-本项目的部分代码生成和文档撰写使用了 AI 辅助工具 (WorkBuddy/Claude)，所有关键逻辑（因子模型、信号规则、回测引擎）由候选人确认后提交。
+本项目的部分代码生成和文档撰写使用了 AI 辅助工具 (WorkBuddy/Claude)，所有关键逻辑（因子模型、信号规则、回测引擎）均经过独立验证与确认。
 
-## 提交
+## 联系方式
 
 - 作者：赵文旭
 - 邮箱：zhaowenxu6@gmail.com
